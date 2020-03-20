@@ -1,0 +1,13 @@
+#fi{
+    color: blue;
+}
+#fi:hover{
+    color: crimson;
+}
+
+.top{
+    text-align: center;
+}
+body{
+    background-image: url('https://jvmag.ch/wp-content/uploads/2018/11/life-is-strange-2.jpg');
+}
