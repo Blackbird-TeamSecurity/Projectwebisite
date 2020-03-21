@@ -6,11 +6,7 @@
             let element = document.getElementById('replyComment-'+ id);
             element.classList.toggle('d-none');
         }
-        $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        
     </script>
 @endsection
 @section('content')
@@ -57,6 +53,17 @@
                                   </div>
                             </div>
                         </div>
+                        @foreach ($comment->comments as $replyComment)
+                        <div class="card mb-2 ml-5">
+                            <div class="card-body">
+                                {{$replyComment->content}}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small>Poster le {{ $replyComment->created_at->format('d/m/Y')}}</small>
+                                    <span class="badge badge-primary">{{ $replyComment->user->name }}</span>
+                                  </div>
+                            </div>
+                        </div>
+                        @endforeach
                         @auth
                         <button  class="btn btn-info mb-3" onclick="toggleReplyComment({{$comment->id}})
                                         ">Repondre</button>
@@ -64,7 +71,10 @@
                             @csrf
                             <div class="form-group">
                                 <label for="replyComment">Ma reponse</label>
-                                <textarea name="replyComment" class="form-control" id="replyComment" @{{ csrf_field() }} rows="5"></textarea>
+                                <textarea name="replyComment" class="form-control @error('replyComment') is-invalid @enderror" id="replyComment" @{{ csrf_field() }} rows="5"></textarea>
+                                @error('replyComment')
+                            <div class="invalid-feedback">{{$errors->first('replyComment')}}</div>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Repondre a ce commentaire</button>
                         </form>
